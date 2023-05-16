@@ -49,7 +49,7 @@ namespace physx
 #define PX_BIG_WORLDS
 
 #ifdef PX_BIG_WORLDS
-typedef	double	PxExtended;
+typedef	float	PxExtended;
 #define	PX_MAX_EXTENDED	PX_MAX_F64
 #define PxExtendedAbs(x)	fabs(x)
 

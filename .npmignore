@@ -9,6 +9,9 @@ pxshared
 *.sh
 *.bat
 compile_commands.json
+test
+
+emsdk
 
 builds/physx.checked.*
 builds/physx.profile.*
