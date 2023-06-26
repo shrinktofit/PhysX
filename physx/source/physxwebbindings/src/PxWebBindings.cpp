@@ -1324,7 +1324,14 @@ EMSCRIPTEN_BINDINGS(physx) {
                   actor->getShapes(&shape, 1);
                   shape->setQueryFilterData(data);
                   return;
-                }));
+                }))
+      .function("getShape",
+          optional_override( [](PxController &ctrl) { 
+                      PxRigidDynamic *actor = ctrl.getActor();
+                      PxShape *shape;
+                      actor->getShapes(&shape, 1);
+                      return shape;
+                     }), allow_raw_pointers());
 
   class_<PxCapsuleController, base<PxController>>("PxCapsuleController")
       .function("getRadius", &PxCapsuleController::getRadius)
