@@ -28,15 +28,39 @@
 STRING(TOLOWER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE_LOWERCASE)
 
 # SET(CLANG_WARNINGS "-ferror-limit=0 -Wall -Wextra -Werror -Wstrict-aliasing=2  -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-gnu-anonymous-struct -Wno-undef -Wno-unused-function -Wno-nested-anon-types -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-deprecated -Wno-non-virtual-dtor -Wno-invalid-noreturn -Wno-return-type-c-linkage -Wno-reserved-id-macro -Wno-c++98-compat-pedantic -Wno-unused-local-typedef -Wno-old-style-cast -Wno-newline-eof -Wno-unused-private-field -Wno-format-nonliteral -Wno-implicit-fallthrough -Wno-undefined-reinterpret-cast -Wno-disabled-macro-expansion -Wno-zero-as-null-pointer-constant -Wno-shadow -Wno-unknown-warning-option -Wno-atomic-implicit-seq-cst -Wno-extra-semi-stmt -Wno-dollar-in-identifier-extension -Wno-alloca -Wno-misleading-indentation -Wno-anon-enum-enum-conversion")
-SET(CLANG_WARNINGS "-ferror-limit=0 -Wall -Wextra -Werror -Wstrict-aliasing=2  -Weverything -Wno-double-promotion -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-gnu-anonymous-struct -Wno-undef -Wno-unused-function -Wno-nested-anon-types -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-deprecated -Wno-non-virtual-dtor -Wno-invalid-noreturn -Wno-return-type-c-linkage -Wno-reserved-id-macro -Wno-c++98-compat-pedantic -Wno-unused-local-typedef -Wno-old-style-cast -Wno-newline-eof -Wno-unused-private-field -Wno-format-nonliteral -Wno-implicit-fallthrough -Wno-undefined-reinterpret-cast -Wno-disabled-macro-expansion -Wno-zero-as-null-pointer-constant -Wno-shadow -Wno-unknown-warning-option -Wno-atomic-implicit-seq-cst -Wno-extra-semi-stmt -Wno-dollar-in-identifier-extension -Wno-alloca -Wno-anon-enum-enum-conversion -Wno-dtor-name")
+SET(CLANG_WARNINGS "-ferror-limit=0 -Wall -Wextra -Wstrict-aliasing=2  -Weverything -Wno-double-promotion \
+-Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-gnu-anonymous-struct -Wno-undef \
+-Wno-unused-function -Wno-nested-anon-types -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-cast-align \
+-Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow \
+-Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes\
+-Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused \
+-Wno-weak-template-vtables -Wno-deprecated -Wno-non-virtual-dtor -Wno-invalid-noreturn -Wno-return-type-c-linkage \
+-Wno-reserved-id-macro -Wno-c++98-compat-pedantic -Wno-unused-local-typedef -Wno-old-style-cast -Wno-newline-eof \
+-Wno-unused-private-field -Wno-format-nonliteral -Wno-implicit-fallthrough -Wno-undefined-reinterpret-cast \
+-Wno-disabled-macro-expansion -Wno-zero-as-null-pointer-constant -Wno-shadow -Wno-unknown-warning-option \
+-Wno-atomic-implicit-seq-cst -Wno-extra-semi-stmt -Wno-dollar-in-identifier-extension -Wno-alloca \
+-Wno-anon-enum-enum-conversion -Wno-dtor-name -Wno-suggest-override -Wno-unsafe-buffer-usage \
+-Wno-suggest-destructor-override -Wno-bitwise-instead-of-logical -Wno-reserved-identifier \
+-Wno-unused-but-set-variable -Wno-missing-prototypes -Wno-unreachable-code\
+")
 SET(CMAKE_STATIC_LIBRARY_PREFIX "")
 
 SET(PHYSX_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-exceptions -ffunction-sections -fdata-sections -fstrict-aliasing ${CLANG_WARNINGS}" CACHE INTERNAL "PhysX CXX")
 
+SET(PHYSX_CXX_FLAGS_DEBUG "-O0 -g3" CACHE INTERNAL "PhysX Debug CXX Flags")
+SET(PHYSX_CXX_FLAGS_CHECKED "-O3 -g3" CACHE INTERNAL "PhysX Checked CXX Flags")
+SET(PHYSX_CXX_FLAGS_PROFILE "-O3 -g3" CACHE INTERNAL "PhysX Profile CXX Flags")
+SET(PHYSX_CXX_FLAGS_RELEASE "-O3 -g0" CACHE INTERNAL "PhysX Release CXX Flags")
+
+# These flags are local to the directory the CMakeLists.txt is in
 SET(CMAKE_CXX_FLAGS ${PHYSX_CXX_FLAGS})
 
-SET(PHYSX_EMSCRIPTEN_COMPILE_DEFS "${CUDA_FLAG};${PHYSX_AUTOBUILD}" CACHE INTERNAL "Base PhysX preprocessor definitions")
+SET(CMAKE_CXX_FLAGS_DEBUG   ${PHYSX_CXX_FLAGS_DEBUG})
+SET(CMAKE_CXX_FLAGS_CHECKED ${PHYSX_CXX_FLAGS_CHECKED})
+SET(CMAKE_CXX_FLAGS_PROFILE ${PHYSX_CXX_FLAGS_PROFILE})
+SET(CMAKE_CXX_FLAGS_RELEASE ${PHYSX_CXX_FLAGS_RELEASE})
 
+SET(PHYSX_EMSCRIPTEN_COMPILE_DEFS "${CUDA_FLAG};${PHYSX_AUTOBUILD}" CACHE INTERNAL "Base PhysX preprocessor definitions")
 SET(PHYSX_EMSCRIPTEN_DEBUG_COMPILE_DEFS   "NDEBUG;PX_DEBUG=1;PX_CHECKED=1;${NVTX_FLAG};PX_SUPPORT_PVD=1"  CACHE INTERNAL "Debug PhysX preprocessor definitions")
 SET(PHYSX_EMSCRIPTEN_CHECKED_COMPILE_DEFS "NDEBUG;PX_CHECKED=1;${NVTX_FLAG};PX_SUPPORT_PVD=1" CACHE INTERNAL "Checked PhysX preprocessor definitions")
 SET(PHYSX_EMSCRIPTEN_PROFILE_COMPILE_DEFS "NDEBUG;PX_PROFILE=1;${NVTX_FLAG};PX_SUPPORT_PVD=1"  CACHE INTERNAL "Profile PhysX preprocessor definitions")
@@ -44,7 +68,6 @@ SET(PHYSX_EMSCRIPTEN_RELEASE_COMPILE_DEFS "NDEBUG;PX_SUPPORT_PVD=0;NO_FILESYSTEM
 
 # TODO: Turn on SIMD 
 ADD_DEFINITIONS(-DPX_SIMD_DISABLED)
-
 
 INCLUDE(PhysXFoundation.cmake)
 INCLUDE(LowLevel.cmake)
@@ -55,7 +78,7 @@ INCLUDE(PhysXCharacterKinematic.cmake)
 INCLUDE(PhysXCommon.cmake)
 INCLUDE(PhysXCooking.cmake)
 INCLUDE(PhysXExtensions.cmake)
-INCLUDE(PhysXVehicle.cmake)
+# INCLUDE(PhysXVehicle.cmake)
 INCLUDE(SceneQuery.cmake)
 INCLUDE(SimulationController.cmake)
 INCLUDE(FastXml.cmake)
@@ -69,7 +92,7 @@ SET_PROPERTY(TARGET PhysXCharacterKinematic PROPERTY FOLDER "PhysX SDK")
 SET_PROPERTY(TARGET PhysXCommon PROPERTY FOLDER "PhysX SDK")
 SET_PROPERTY(TARGET PhysXCooking PROPERTY FOLDER "PhysX SDK")
 SET_PROPERTY(TARGET PhysXExtensions PROPERTY FOLDER "PhysX SDK")
-SET_PROPERTY(TARGET PhysXVehicle PROPERTY FOLDER "PhysX SDK")
+# SET_PROPERTY(TARGET PhysXVehicle PROPERTY FOLDER "PhysX SDK")
 SET_PROPERTY(TARGET LowLevel PROPERTY FOLDER "PhysX SDK")
 SET_PROPERTY(TARGET LowLevelAABB PROPERTY FOLDER "PhysX SDK")
 SET_PROPERTY(TARGET LowLevelDynamics PROPERTY FOLDER "PhysX SDK")
@@ -81,7 +104,7 @@ SET_PROPERTY(TARGET PhysXTask PROPERTY FOLDER "PhysX SDK")
 SET_PROPERTY(TARGET PhysXFoundation PROPERTY FOLDER "PhysX SDK")	
 SET_PROPERTY(TARGET PhysXWebBindings PROPERTY FOLDER "PhysX SDK")	
 
-SET(PHYSXDISTRO_LIBS PhysXFoundation PhysX PhysXCharacterKinematic PhysXPvdSDK PhysXCommon PhysXCooking PhysXExtensions PhysXVehicle PhysXWebBindings)
+SET(PHYSXDISTRO_LIBS PhysXFoundation PhysX PhysXCharacterKinematic PhysXPvdSDK PhysXCommon PhysXCooking PhysXExtensions PhysXWebBindings)
 
 INSTALL(
 	TARGETS ${PHYSXDISTRO_LIBS}
