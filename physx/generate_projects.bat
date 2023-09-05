@@ -50,10 +50,13 @@ for /f "usebackq tokens=*" %%i in (`"%PM_vswhere_PATH%\VsWhere.exe" -latest -pro
 
 :ADDITIONAL_PARAMS_MISSING
 pushd %~dp0
+
+ECHO %PM_PYTHON%
+
 %PM_PYTHON% "%PHYSX_ROOT_DIR%/buildtools/cmake_generate_projects.py" %1
 popd
 if %ERRORLEVEL% neq 0 (
-    set /p DUMMY=Hit ENTER to continue...
+:    set /p DUMMY=Hit ENTER to continue...
     exit /b %errorlevel%
 ) else (
     goto CLEAN_EXIT

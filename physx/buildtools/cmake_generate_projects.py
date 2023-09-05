@@ -24,8 +24,8 @@ def filterPreset(presetName):
     if sys.platform == 'win32':        
         if any(presetName.find(elem) != -1 for elem in winPresetFilter):
             return True
-    else:        
-        if all(presetName.find(elem) == -1 for elem in winPresetFilter):
+    else:
+        if any(presetName.find(elem) == -1 for elem in winPresetFilter):
             return True
     return False
 
@@ -314,6 +314,7 @@ class CMakePreset:
             outString = outString + ' -DPX_OUTPUT_ARCH=arm'
             return outString
         elif self.targetPlatform == 'emscripten':
+            outString = outString + '-G \"Ninja\"'
             outString = outString + ' -DTARGET_BUILD_PLATFORM=emscripten'
             outString = outString + ' -DCMAKE_TOOLCHAIN_FILE=\"' + \
                 os.path.join(os.environ['EMSCRIPTEN'] + '/cmake/Modules/Platform/Emscripten.cmake\"')
