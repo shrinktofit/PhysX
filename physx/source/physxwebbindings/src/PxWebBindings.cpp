@@ -586,6 +586,86 @@ EMSCRIPTEN_BINDINGS(physx) {
       .value("ePROFILE", PxPvdInstrumentationFlag::Enum::ePROFILE)
       .value("eMEMORY", PxPvdInstrumentationFlag::Enum::eMEMORY);
 
+  enum_<PxVisualizationParameter::Enum>("PxVisualizationParameter")
+      .value("eSCALE", PxVisualizationParameter::Enum::eSCALE)
+      .value("eWORLD_AXES", PxVisualizationParameter::Enum::eWORLD_AXES)
+      .value("eBODY_AXES", PxVisualizationParameter::Enum::eBODY_AXES)
+      .value("eBODY_MASS_AXES", PxVisualizationParameter::Enum::eBODY_MASS_AXES)
+      .value("eBODY_LIN_VELOCITY", PxVisualizationParameter::Enum::eBODY_LIN_VELOCITY)
+      .value("eBODY_ANG_VELOCITY", PxVisualizationParameter::Enum::eBODY_ANG_VELOCITY)
+      .value("eCONTACT_POINT", PxVisualizationParameter::Enum::eCONTACT_POINT)
+      .value("eCONTACT_NORMAL", PxVisualizationParameter::Enum::eCONTACT_NORMAL)
+      .value("eCONTACT_ERROR", PxVisualizationParameter::Enum::eCONTACT_ERROR)
+      .value("eCONTACT_FORCE", PxVisualizationParameter::Enum::eCONTACT_FORCE)
+      .value("eACTOR_AXES", PxVisualizationParameter::Enum::eACTOR_AXES)
+      .value("eCOLLISION_AABBS", PxVisualizationParameter::Enum::eCOLLISION_AABBS)
+      .value("eCOLLISION_SHAPES", PxVisualizationParameter::Enum::eCOLLISION_SHAPES)
+      .value("eCOLLISION_AXES", PxVisualizationParameter::Enum::eCOLLISION_AXES)
+      .value("eCOLLISION_COMPOUNDS", PxVisualizationParameter::Enum::eCOLLISION_COMPOUNDS)
+      .value("eCOLLISION_FNORMALS", PxVisualizationParameter::Enum::eCOLLISION_FNORMALS)
+      .value("eCOLLISION_EDGES", PxVisualizationParameter::Enum::eCOLLISION_EDGES)
+      .value("eCOLLISION_STATIC", PxVisualizationParameter::Enum::eCOLLISION_STATIC)
+      .value("eCOLLISION_DYNAMIC", PxVisualizationParameter::Enum::eCOLLISION_DYNAMIC)
+      .value("eDEPRECATED_COLLISION_PAIRS", PxVisualizationParameter::Enum::eDEPRECATED_COLLISION_PAIRS)
+      .value("eJOINT_LOCAL_FRAMES", PxVisualizationParameter::Enum::eJOINT_LOCAL_FRAMES)
+      .value("eJOINT_LIMITS", PxVisualizationParameter::Enum::eJOINT_LIMITS)
+      .value("eCULL_BOX", PxVisualizationParameter::Enum::eCULL_BOX)
+      .value("eMBP_REGIONS", PxVisualizationParameter::Enum::eMBP_REGIONS)
+      .value("eNUM_VALUES", PxVisualizationParameter::Enum::eNUM_VALUES);
+
+  class_<PxDebugPoint>("PxDebugPoint")
+      .constructor<PxVec3, PxU32>()
+      .property("pos", &PxDebugPoint::pos)
+      .property("color", &PxDebugPoint::color);
+
+  class_<PxDebugLine>("PxDebugLine")
+      .constructor<PxVec3, PxVec3, PxU32>()
+      .property("pos0", &PxDebugLine::pos0)
+      .property("pos1", &PxDebugLine::pos1)
+      .property("color0", &PxDebugLine::color0)
+      .property("color1", &PxDebugLine::color1);
+  
+  class_<PxDebugTriangle>("PxDebugTriangle")
+      .constructor<PxVec3, PxVec3, PxVec3, PxU32>()
+      .property("pos0", &PxDebugTriangle::pos0)
+      .property("pos1", &PxDebugTriangle::pos1)
+      .property("pos2", &PxDebugTriangle::pos2)
+      .property("color0", &PxDebugTriangle::color0)
+      .property("color1", &PxDebugTriangle::color1)
+      .property("color2", &PxDebugTriangle::color2);
+
+  // class_<PxDebugText>("PxDebugText")
+  //     .constructor<>()
+  //     .constructor<PxVec3, PxReal, PxU32, const char *>()
+  //     .property("position", &PxDebugText::position)
+  //     .property("size", &PxDebugText::size)
+  //     .property("color", &PxDebugText::color)
+  //     .property("string", &PxDebugText::string);
+
+  class_<PxRenderBuffer>("PxRenderBuffer")
+      .function("getNbLines", &PxRenderBuffer::getNbLines)
+      //.function("getLines", &PxRenderBuffer::getLines, allow_raw_pointers())
+      .function("getLineAt", optional_override( 
+        [](const PxRenderBuffer* buffer, PxU32 index) {
+            return &(buffer->getLines()[index]);
+        }), allow_raw_pointers())
+      .function("getNbPoints", &PxRenderBuffer::getNbPoints)
+      //.function("getPoints", &PxRenderBuffer::getPoints, allow_raw_pointers())
+      .function("getPointAt", optional_override( 
+        [](const PxRenderBuffer* buffer, PxU32 index) {
+            return &(buffer->getPoints()[index]);
+        }), allow_raw_pointers())
+      .function("getNbTriangles", &PxRenderBuffer::getNbTriangles)
+      .function("getTriangleAt", optional_override( 
+        [](const PxRenderBuffer* buffer, PxU32 index) {
+            return &(buffer->getTriangles()[index]);
+        }), allow_raw_pointers())
+      //.function("getTriangles", &PxRenderBuffer::getTriangles,
+      //          allow_raw_pointers())
+      // .function("getNbTexts", &PxRenderBuffer::getNbTexts)
+      // .function("getTexts", &PxRenderBuffer::getTexts, allow_raw_pointers())
+      ;
+
   enum_<PxForceMode::Enum>("PxForceMode")
       .value("eFORCE", PxForceMode::Enum::eFORCE)
       .value("eIMPULSE", PxForceMode::Enum::eIMPULSE)
@@ -631,6 +711,13 @@ EMSCRIPTEN_BINDINGS(physx) {
       .function("getActors", &PxScene::getActors, allow_raw_pointers())
       .function("setVisualizationCullingBox",
                 &PxScene::setVisualizationCullingBox)
+      .function("getVisualizationParameter", &PxScene::getVisualizationParameter)
+      .function("setVisualizationParameter", &PxScene::setVisualizationParameter)
+      // .function("getRenderBuffer", &PxScene::getRenderBuffer, allow_raw_pointers())
+      .function("getRenderBuffer", optional_override( 
+        [](PxScene &scene) {
+            return &(scene.getRenderBuffer());
+        }), allow_raw_pointers())
       .function("simulate",
                 optional_override([](PxScene &scene, PxReal elapsedTime,
                                      bool controlSimulation) {
@@ -891,7 +978,10 @@ EMSCRIPTEN_BINDINGS(physx) {
       .value("eVISUALIZATION", PxShapeFlag::Enum::eVISUALIZATION);
 
   enum_<PxActorFlag::Enum>("PxActorFlag")
-      .value("eDISABLE_GRAVITY", PxActorFlag::Enum::eDISABLE_GRAVITY);
+      .value("eVISUALIZATION", PxActorFlag::Enum::eVISUALIZATION)
+      .value("eDISABLE_GRAVITY", PxActorFlag::Enum::eDISABLE_GRAVITY)
+      .value("eSEND_SLEEP_NOTIFIES", PxActorFlag::Enum::eSEND_SLEEP_NOTIFIES)
+      .value("eDISABLE_SIMULATION", PxActorFlag::Enum::eDISABLE_SIMULATION);
 
   class_<PxErrorCallback>("PxErrorCallback");
   class_<PxDefaultErrorCallback, base<PxErrorCallback>>(
