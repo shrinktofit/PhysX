@@ -336,6 +336,42 @@ struct PxUserControllerHitReportWrapper
   }
 };
 
+// PxRenderBuffer
+static uint32_t PxRenderBuffer_GetNbLines(uint32_t ptr) {
+  return ((PxRenderBuffer *)ptr)->getNbLines();
+}
+static uint32_t PxRenderBuffer_GetLineAt(uint32_t ptr, uint32_t id) {
+  return (uint32_t )&(((PxRenderBuffer *)ptr)->getLines()[id]);
+}
+static uint32_t PxRenderBuffer_GetNbPoints(uint32_t ptr) {
+  return ((PxRenderBuffer *)ptr)->getNbPoints();
+}
+static uint32_t PxRenderBuffer_GetPointAt(uint32_t ptr, uint32_t id) {
+  return (uint32_t )&(((PxRenderBuffer *)ptr)->getPoints()[id]);
+}
+static uint32_t PxRenderBuffer_GetNbTriangles(uint32_t ptr) {
+  return ((PxRenderBuffer *)ptr)->getNbTriangles();
+}
+static uint32_t PxRenderBuffer_GetTriangleAt(uint32_t ptr, uint32_t id) {
+  return (uint32_t )&(((PxRenderBuffer *)ptr)->getTriangles()[id]);
+}
+
+// PxDebugLine
+static uint32_t PxDebugLine_GetPos0(uint32_t ptr) {
+  return (uint32_t)&(((PxDebugLine *)ptr)->pos0);
+}
+static uint32_t PxDebugLine_GetPos1(uint32_t ptr) {
+  return (uint32_t)&(((PxDebugLine *)ptr)->pos1);
+}
+static uint32_t PxDebugLine_GetColor0(uint32_t ptr) {
+  return ((PxDebugLine *)ptr)->color0;
+}
+static uint32_t PxDebugLine_GetColor1(uint32_t ptr) {
+  return ((PxDebugLine *)ptr)->color1;
+}
+
+//----------------------------------------------------------------------------
+
 EMSCRIPTEN_BINDINGS(physx) {
 
   constant("PX_PHYSICS_VERSION", PX_PHYSICS_VERSION);
@@ -642,6 +678,21 @@ EMSCRIPTEN_BINDINGS(physx) {
   //     .property("color", &PxDebugText::color)
   //     .property("string", &PxDebugText::string);
 
+  function("PxRenderBuffer_GetNbLines", &PxRenderBuffer_GetNbLines);
+  function("PxRenderBuffer_GetLineAt", &PxRenderBuffer_GetLineAt,
+           allow_raw_pointers());
+  function("PxRenderBuffer_GetNbPoints", &PxRenderBuffer_GetNbPoints);
+  function("PxRenderBuffer_GetPointAt", &PxRenderBuffer_GetPointAt,
+           allow_raw_pointers());
+  function("PxRenderBuffer_GetNbTriangles", &PxRenderBuffer_GetNbTriangles);
+  function("PxRenderBuffer_GetTriangleAt", &PxRenderBuffer_GetTriangleAt,
+           allow_raw_pointers());
+
+  function("PxDebugLine_GetPos0", &PxDebugLine_GetPos0);
+  function("PxDebugLine_GetPos1", &PxDebugLine_GetPos1);
+  function("PxDebugLine_GetColor0", &PxDebugLine_GetColor0);
+  function("PxDebugLine_GetColor1", &PxDebugLine_GetColor1);
+
   class_<PxRenderBuffer>("PxRenderBuffer")
       .function("getNbLines", &PxRenderBuffer::getNbLines)
       //.function("getLines", &PxRenderBuffer::getLines, allow_raw_pointers())
@@ -718,6 +769,10 @@ EMSCRIPTEN_BINDINGS(physx) {
         [](PxScene &scene) {
             return &(scene.getRenderBuffer());
         }), allow_raw_pointers())
+      .function("getRenderBufferPtr", optional_override( 
+      [](PxScene &scene) {
+          return uint32_t(&(scene.getRenderBuffer()));
+      }), allow_raw_pointers())
       .function("simulate",
                 optional_override([](PxScene &scene, PxReal elapsedTime,
                                      bool controlSimulation) {
