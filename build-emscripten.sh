@@ -59,7 +59,9 @@ cd compiler/emscripten-js-$mode
 echo -e "\033[01;32m |||  BUILD ASM.JS END  ||| \033[0m"
 cd $base_dir
 cp $base_dir/physx/bin/emscripten/$mode/physx.$mode.asm.js $base_dir/builds
-cp -r $base_dir/builds/physx.$mode.asm.js $copy_dest
+if [ -d "$copy_dest" ]; then
+    cp -r $base_dir/builds/physx.$mode.asm.js $copy_dest
+fi
 fi
 
 #--------------------------wasm----------------------------------
@@ -84,8 +86,10 @@ echo -e "\033[01;32m |||  BUILD WASM END  ||| \033[0m"
 cd $base_dir
 cp $base_dir/physx/bin/emscripten/$mode/physx.$mode.wasm.js $base_dir/builds
 cp $base_dir/physx/bin/emscripten/$mode/physx.$mode.wasm.wasm $base_dir/builds
-cp -r $base_dir/builds/physx.$mode.wasm.js $copy_dest
-cp -r $base_dir/builds/physx.$mode.wasm.wasm $copy_dest
+if [ -d "$copy_dest" ]; then
+    cp -r $base_dir/builds/physx.$mode.wasm.js $copy_dest
+    cp -r $base_dir/builds/physx.$mode.wasm.wasm $copy_dest
+fi
 
 #------------------------------------------------------------
 echo -e "\033[01;32m |||  END  |||  \033[0m"
