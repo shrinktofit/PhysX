@@ -54,7 +54,7 @@ fi
 
 echo -e "\033[01;32m |||  COMPILE ||| \033[0m"
 cd compiler/emscripten-js-$mode
-# ninja
+ninja
 
 echo -e "\033[01;32m |||  BUILD ASM.JS END  ||| \033[0m"
 cd $base_dir
@@ -80,7 +80,7 @@ fi
 
 echo -e "\033[01;32m |||  COMPILE ||| \033[0m"
 cd compiler/emscripten-wasm-$mode
-# ninja
+ninja
 
 echo -e "\033[01;32m |||  BUILD WASM END  ||| \033[0m"
 cd $base_dir
