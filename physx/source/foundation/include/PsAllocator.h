@@ -36,8 +36,12 @@
 #include "Ps.h"
 
 #if(PX_WINDOWS_FAMILY || PX_XBOXONE)
-	#include <exception>
-	#include <typeinfo.h>
+	    #include <exception>
+        #if(_MSC_VER >= 1923)
+                #include <typeinfo>
+        #else
+                #include <typeinfo.h>
+        #endif
 #endif
 #if(PX_APPLE_FAMILY)
 	#include <typeinfo>
